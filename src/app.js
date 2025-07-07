@@ -115,7 +115,27 @@ function closeNoteDialog() {
   document.getElementById("note-dialog").close();
 }
 
+function toggleTheme() {
+  const isDark = document.body.classList.toggle("dark-theme");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.getElementById("theme-toggle-btn").textContent = isDark
+    ? "🌞"
+    : "🌙";
+}
+
+function applyTheme() {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-theme");
+    document.getElementById("theme-toggle-btn").textContent = "🌞";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  applyTheme();
+  document
+    .getElementById("theme-toggle-btn")
+    .addEventListener("click", toggleTheme);
+
   notes = loadNotes();
 
   renderNotes();
