@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quick Notes</title>
     <link rel="stylesheet" href="/src/style.css" />
-    <script src="/src/app.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="/src/app.js" defer type="module"></script>
   </head>
   <body>
     <header>
@@ -18,12 +22,10 @@
           autocapitalize="off"
           autocomplete="off"
         />
-        <button class="search-btn">🔍</button>
+        <i class="fa-solid fa-magnifying-glass"></i>
       </div>
       <div>
-        <button class="add-note-btn" onclick="openNoteDialog()">
-          + Add Note
-        </button>
+        <button class="add-note-btn" data-action="add">Add Note</button>
         <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
       </div>
     </header>
@@ -34,7 +36,7 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <h2 class="dialog-title" id="dialog-title">Add New Note</h2>
-          <button class="close-btn" onclick="closeNoteDialog()">x</button>
+          <button class="close-btn" data-action="close">x</button>
         </div>
 
         <form id="note-form">
@@ -60,11 +62,7 @@
           </div>
 
           <div class="dialog-actions">
-            <button
-              type="button"
-              class="cancel-btn"
-              onclick="closeNoteDialog()"
-            >
+            <button type="button" class="cancel-btn" data-action="close">
               Cancel
             </button>
             <button type="submit" class="save-btn">Save Note</button>

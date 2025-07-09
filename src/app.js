@@ -1,4 +1,8 @@
+import { setupSearch } from "./search.js";
+
 let notes = [];
+let allNotes = [];
+let filteredNotes = [];
 let editingNoteId = null;
 
 function loadNotes() {
@@ -37,8 +41,12 @@ function saveNote(event) {
     });
   }
 
+  allNotes = [...notes];
+  filteredNotes = [...notes];
+
   saveNotes(notes);
   renderNotes();
+  closeNoteDialog();
 }
 
 function generateId() {
@@ -51,40 +59,37 @@ function saveNotes(notes) {
 
 function deleteNote(id) {
   notes = notes.filter((note) => note.id !== id);
+  allNotes = [...notes];
+  filteredNotes = [...notes];
   saveNotes(notes);
   renderNotes();
 }
 
 function renderNotes() {
   const notesContainer = document.getElementById("notes-container");
-
-  if (notes.length === 0) {
-    notesContainer.innerHTML = `
-    
+  notesContainer.innerHTML =
+    filteredNotes.length === 0
+      ? `
     <div class="empty-state">
       <h2>No notes yet</h2>
       <p>Click the + button to add a new note</p>
-      <button class="add-note-btn" onclick="openNoteDialog()">Add Your First Note</button>
+      <button class="add-note-btn" data-action="add">Add Your First Note</button>
     </div>
-
-    `;
-    return;
-  } else {
-    notesContainer.innerHTML = notes
-      .map(
-        (note) => `
-      <div class="note-card">
+    `
+      : filteredNotes
+          .map(
+            (note) => `
+      <div class="note-card" data-id="${note.id}">
         <h3 class="note-title">${note.title}</h3>
         <p class="note-content">${note.content}</p>
         <div class="note-actions">
-          <button class="edit-btn" onclick="openNoteDialog(${note.id})" title="Edit Note">✎</button>
-          <button class="delete-btn" onclick="deleteNote(${note.id})" title="Delete Note">❌</button>
+          <button class="edit-btn" data-action="edit" title="Edit Note">✎</button>
+          <button class="delete-btn" data-action="delete" title="Delete Note">❌</button>
         </div>
-        </div>
+      </div>
       `
-      )
-      .join("");
-  }
+          )
+          .join("");
 }
 
 function openNoteDialog(noteId = null) {
@@ -92,7 +97,7 @@ function openNoteDialog(noteId = null) {
   const titleInput = document.getElementById("note-title");
   const contentInput = document.getElementById("note-content");
 
-  if (noteId) {
+  if (noteId !== null) {
     // Editing an existing note...
     const noteToEdit = notes.find((note) => note.id === noteId);
     editingNoteId = noteId;
@@ -137,6 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", toggleTheme);
 
   notes = loadNotes();
+  allNotes = [...notes];
+  filteredNotes = [...notes];
 
   renderNotes();
 
@@ -149,4 +156,30 @@ document.addEventListener("DOMContentLoaded", function () {
         closeNoteDialog();
       }
     });
+
+  document.addEventListener("click", (e) => {
+    const actionBtn = e.target.closest("[data-action]");
+    if (!actionBtn) return;
+
+    const action = actionBtn.dataset.action;
+    const noteCard = actionBtn.closest(".note-card");
+
+    if (action === "add") {
+      openNoteDialog();
+    } else if (noteCard) {
+      const noteId = parseInt(noteCard.dataset.id);
+      if (action === "edit") {
+        openNoteDialog(noteId);
+      } else if (action === "delete") {
+        deleteNote(noteId);
+      }
+    } else if (action === "close") {
+      closeNoteDialog();
+    }
+  });
+
+  setupSearch(allNotes, (results) => {
+    filteredNotes = results;
+    renderNotes();
+  });
 });

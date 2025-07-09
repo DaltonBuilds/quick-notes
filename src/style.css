@@ -16,6 +16,11 @@
   --base-transparent-100: rgba(247, 247, 247, 1);
 }
 
+::selection {
+  background: var(--brand-color);
+  color: white;
+}
+
 .dark-theme {
   --brand-color: #8b90ff;
   --base-color: #1e1f26;
@@ -38,9 +43,10 @@ h1 {
 }
 
 .search-bar {
+  position: relative;
   display: flex;
-  width: 100%; /* Ensure full width */
-  max-width: 500px; /* Optional: Set a max width */
+  width: 100%;
+  max-width: 500px;
 }
 
 .search-bar input {
@@ -49,28 +55,27 @@ h1 {
   background: var(--base-color);
   color: var(--text-color);
   border: 1px solid var(--surface-color);
-  border-right: none; /* Remove right border */
-  border-radius: 0.5rem 0 0 0.5rem;
-  outline: none; /* Remove default focus outline */
+  border-radius: 0.5rem;
+  outline: none;
 }
 
-.search-bar button {
-  padding: 0 1rem; /* Symmetrical padding */
-  border: 1px solid var(--surface-color);
-  border-left: none; /* Remove left border */
-  border-radius: 0 0.5rem 0.5rem 0;
-  background: var(--base-color);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: background 0.2s; /* Smooth hover effect */
-}
-
-.search-bar button:hover {
-  background: var(--surface-color);
+.search-bar .fa-magnifying-glass {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary-text-color);
+  font-size: 1rem;
+  pointer-events: none;
 }
 
 .search-bar input:focus {
-  border-color: var(--accent-color); /* Highlight when typing */
+  border-color: var(--accent-color);
+}
+
+.fa-solid {
+  font-size: 1rem;
+  stroke-opacity: 0.5;
 }
 
 button,
@@ -121,7 +126,7 @@ header {
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .note-card {
