@@ -123,6 +123,17 @@ header {
   color: white;
 }
 
+.theme-toggle-btn i {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: currentColor;
+}
+
+.theme-toggle-btn:hover i {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -177,30 +188,48 @@ header {
 
 .edit-btn,
 .delete-btn {
-  width: 32px;
-  height: 32px;
   border: none;
-  border-radius: 0.375rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
   backdrop-filter: blur(10px);
-  background: var(--base-transparent-90);
+  background: none;
   color: var(--text-color);
-  border: 1px solid var(--surface-color);
 }
 
-.edit-btn:hover {
-  background: var(--base-transparent-100);
-  transform: scale(1.05);
+[data-lucide="edit"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-color);
+  stroke: var(--text-color);
+  opacity: 0.5;
+  transition: 0.3s ease;
 }
 
-.delete-btn:hover {
-  background: #ff5252;
+[data-lucide="edit"]:hover {
+  opacity: 0.9;
+  transition: 0.3s ease;
+}
+
+[data-lucide="trash2"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: red;
+  stroke: red;
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
+
+[data-lucide="trash2"]:hover {
+  opacity: 0.9;
+  transition: 0.3s ease;
+}
+
+.edit-btn:hover i {
+  stroke: blue;
   transform: scale(1.05);
-  color: white;
 }
 
 dialog {
@@ -211,8 +240,10 @@ dialog {
   padding: 0;
   background: var(--surface-color);
   color: var(--text-color);
-  max-width: 500px;
+  min-width: 400px;
+  max-width: 80%;
   width: 90vw;
+  resize: both;
 }
 
 dialog::backdrop {

@@ -1,3 +1,4 @@
+// Search functionality
 export function setupSearch(notes, renderCallback) {
   const searchInput = document.getElementById("search-input");
 

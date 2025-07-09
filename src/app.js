@@ -1,4 +1,5 @@
 import { setupSearch } from "./search.js";
+import { createIcons, Sun, Moon, Plus, Edit, Trash2 } from "lucide";
 
 let notes = [];
 let allNotes = [];
@@ -73,7 +74,7 @@ function renderNotes() {
     <div class="empty-state">
       <h2>No notes yet</h2>
       <p>Click the + button to add a new note</p>
-      <button class="add-note-btn" data-action="add">Add Your First Note</button>
+      <button class="add-note-btn" data-action="add">Add Note</button>
     </div>
     `
       : filteredNotes
@@ -83,13 +84,20 @@ function renderNotes() {
         <h3 class="note-title">${note.title}</h3>
         <p class="note-content">${note.content}</p>
         <div class="note-actions">
-          <button class="edit-btn" data-action="edit" title="Edit Note">✎</button>
-          <button class="delete-btn" data-action="delete" title="Delete Note">❌</button>
+          <button class="edit-btn" data-action="edit" title="Edit Note"><i data-lucide="edit"></i></button>
+          <button class="delete-btn" data-action="delete" title="Delete Note"><i data-lucide="trash2"></i></button>
         </div>
       </div>
       `
           )
           .join("");
+
+  createIcons({
+    icons: {
+      Edit,
+      Trash2,
+    },
+  });
 }
 
 function openNoteDialog(noteId = null) {
@@ -101,7 +109,9 @@ function openNoteDialog(noteId = null) {
     // Editing an existing note...
     const noteToEdit = notes.find((note) => note.id === noteId);
     editingNoteId = noteId;
-    document.getElementById("dialog-title").innerHTML = "Edit Note";
+    document.getElementById(
+      "dialog-title"
+    ).innerHTML = `Edit Note: ${noteToEdit.title}`;
     titleInput.value = noteToEdit.title;
     contentInput.value = noteToEdit.content;
   } else {
@@ -113,7 +123,7 @@ function openNoteDialog(noteId = null) {
   }
 
   dialog.showModal();
-  titleInput.focus();
+  titleInput.focus({ preventScroll: true });
 }
 
 function closeNoteDialog() {
@@ -123,36 +133,64 @@ function closeNoteDialog() {
 function toggleTheme() {
   const isDark = document.body.classList.toggle("dark-theme");
   localStorage.setItem("theme", isDark ? "dark" : "light");
-  document.getElementById("theme-toggle-btn").textContent = isDark
-    ? "🌞"
-    : "🌙";
+  updateThemeIcon(isDark);
 }
 
 function applyTheme() {
-  if (localStorage.getItem("theme") === "dark") {
+  const isDark = localStorage.getItem("theme") === "dark";
+  if (isDark) {
     document.body.classList.add("dark-theme");
-    document.getElementById("theme-toggle-btn").textContent = "🌞";
   }
+  updateThemeIcon(isDark);
+}
+
+function updateThemeIcon(isDark) {
+  const themeBtn = document.getElementById("theme-toggle-btn");
+  themeBtn.innerHTML = isDark
+    ? '<i data-lucide="sun"></i>'
+    : '<i data-lucide="moon"></i>';
+
+  createIcons({
+    icons: {
+      Sun,
+      Moon,
+    },
+  });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Apply theme
   applyTheme();
+
+  // Initialize Lucide icons
+  createIcons({
+    icons: {
+      Sun,
+      Moon,
+      Plus,
+      Edit,
+      Trash2,
+    },
+  });
+
   document
     .getElementById("theme-toggle-btn")
     .addEventListener("click", toggleTheme);
 
+  // Load notes
   notes = loadNotes();
   allNotes = [...notes];
   filteredNotes = [...notes];
 
   renderNotes();
 
+  // Other event listeners
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
   document
     .getElementById("note-dialog")
-    .addEventListener("click", function (event) {
-      if (event.target == this) {
+    .addEventListener("click", function (e) {
+      if (e.target == this) {
         closeNoteDialog();
       }
     });
