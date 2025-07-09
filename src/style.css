@@ -39,8 +39,8 @@ h1 {
 
 .search-bar {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  width: 100%; /* Ensure full width */
+  max-width: 500px; /* Optional: Set a max width */
 }
 
 .search-bar input {
@@ -49,17 +49,28 @@ h1 {
   background: var(--base-color);
   color: var(--text-color);
   border: 1px solid var(--surface-color);
-  border-radius: 0.5rem;
+  border-right: none; /* Remove right border */
+  border-radius: 0.5rem 0 0 0.5rem;
+  outline: none; /* Remove default focus outline */
 }
 
 .search-bar button {
-  padding: 8px 12px;
+  padding: 0 1rem; /* Symmetrical padding */
   border: 1px solid var(--surface-color);
-  border-left: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
+  border-left: none; /* Remove left border */
+  border-radius: 0 0.5rem 0.5rem 0;
   background: var(--base-color);
   color: var(--text-color);
+  cursor: pointer;
+  transition: background 0.2s; /* Smooth hover effect */
+}
+
+.search-bar button:hover {
+  background: var(--surface-color);
+}
+
+.search-bar input:focus {
+  border-color: var(--accent-color); /* Highlight when typing */
 }
 
 button,
