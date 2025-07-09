@@ -1,4 +1,8 @@
-import { setupSearch } from "./search.js";
+import { setupSearch } from "./utils/search.js";
+import {
+  initDeleteConfirmation,
+  closeConfirmDialog,
+} from "./utils/confirmDialog.js";
 import { createIcons, Sun, Moon, Plus, Edit, Trash2 } from "lucide";
 
 let notes = [];
@@ -173,6 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
+  const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
+    deleteNote(id);
+  });
+
   document
     .getElementById("theme-toggle-btn")
     .addEventListener("click", toggleTheme);
@@ -209,10 +217,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (action === "edit") {
         openNoteDialog(noteId);
       } else if (action === "delete") {
-        deleteNote(noteId);
+        showDeleteConfirmation(noteId);
       }
     } else if (action === "close") {
       closeNoteDialog();
+      closeConfirmDialog();
     }
   });
 

@@ -232,7 +232,7 @@ header {
   transform: scale(1.05);
 }
 
-dialog {
+.note-dialog {
   margin: auto;
   inset: 0;
   border: none;
@@ -244,6 +244,15 @@ dialog {
   max-width: 80%;
   width: 90vw;
   resize: both;
+}
+
+.destructive-btn {
+  background: #ff4444;
+  color: white;
+}
+
+.destructive-btn:hover {
+  background: #cc0000;
 }
 
 dialog::backdrop {
