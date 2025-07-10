@@ -8,12 +8,21 @@
 
 :root {
   --brand-color: #8b90ff;
+  --brand-color-hover: color-mix(in srgb, var(--brand-color), #191b23 25%);
   --base-color: #f2f4f8;
   --surface-color: #fff;
   --text-color: #191b23;
   --secondary-text-color: #3c404f;
   --base-transparent-90: rgba(247, 247, 247, 0.9);
   --base-transparent-100: rgba(247, 247, 247, 1);
+  --destructive-color: #c41d1d;
+  --destructive-color-hover: color-mix(
+    in srgb,
+    var(--destructive-color),
+    #191b23 25%
+  );
+  --z-dialog: 1000;
+  --z-backdrop: 999;
 }
 
 ::selection {
@@ -59,7 +68,7 @@ h1 {
   outline: none;
 }
 
-.search-bar .fa-magnifying-glass {
+.search-bar .search {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -71,11 +80,6 @@ h1 {
 
 .search-bar input:focus {
   border-color: var(--accent-color);
-}
-
-.fa-solid {
-  font-size: 1rem;
-  stroke-opacity: 0.5;
 }
 
 button,
@@ -103,7 +107,7 @@ header {
 }
 
 .add-note-btn:hover {
-  background: #7a7fff;
+  background: var(--brand-color-hover);
 }
 
 .theme-toggle-btn {
@@ -113,25 +117,8 @@ header {
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-weight: 500;
   transition: all 0.2s ease;
   margin-left: 1rem;
-}
-
-.theme-toggle-btn:hover {
-  background: var(--brand-color);
-  color: white;
-}
-
-.theme-toggle-btn i {
-  width: 1.25rem;
-  height: 1.25rem;
-  stroke: currentColor;
-}
-
-.theme-toggle-btn:hover i {
-  transform: scale(1.1);
-  transition: transform 0.2s ease;
 }
 
 .notes-grid {
@@ -150,7 +137,7 @@ header {
 }
 
 .note-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
@@ -227,14 +214,22 @@ header {
   transition: 0.3s ease;
 }
 
-.edit-btn:hover i {
-  stroke: blue;
-  transform: scale(1.05);
+[data-lucide="circle-x"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--destructive-color);
+  stroke: var(--destructive-color);
+  opacity: 0.5;
+  transition: 0.3s ease;
 }
 
-.note-dialog {
-  margin: auto;
-  inset: 0;
+/* Base dialog styles */
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
   border: none;
   border-radius: 1rem;
   padding: 0;
@@ -242,53 +237,61 @@ header {
   color: var(--text-color);
   min-width: 400px;
   max-width: 80%;
-  width: 90vw;
-  resize: both;
+  width: 40vw;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: var(--z-dialog);
 }
 
-.destructive-btn {
-  background: #ff4444;
-  color: white;
+dialog[open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-.destructive-btn:hover {
-  background: #cc0000;
+.dark-theme dialog {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.7);
 }
 
+/* Content area */
 .dialog-content {
   padding: 2rem;
 }
 
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+/* Form elements */
+.form-input,
+.form-textarea {
+  background: var(--base-color);
+  border-color: var(--base-color);
 }
 
-.dialog-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+/* Focus states */
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand-color), transparent 70%);
 }
 
 .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
   background: none;
   border: none;
   font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
   color: var(--secondary-text-color);
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  transition: background 0.2s ease;
-}
-
-.close-btn:hover {
-  background: var(--surface-color);
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-group {
@@ -332,7 +335,8 @@ dialog::backdrop {
 }
 
 .cancel-btn,
-.save-btn {
+.save-btn,
+.destructive-btn {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 0.5rem;
@@ -352,7 +356,17 @@ dialog::backdrop {
 }
 
 .save-btn:hover {
-  background: #7a7fff;
+  background: var(--brand-color-hover);
+}
+
+.destructive-btn {
+  background: var(--destructive-color);
+  color: white;
+}
+
+.destructive-btn:hover {
+  background: var(destructive-color-hover);
+  color: white;
 }
 
 .empty-state {

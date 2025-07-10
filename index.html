@@ -18,7 +18,7 @@
           autocapitalize="off"
           autocomplete="off"
         />
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="search" data-lucide="search"></i>
       </div>
       <div>
         <button class="add-note-btn" data-action="add">Add Note</button>
@@ -33,8 +33,12 @@
     <dialog id="delete-dialog" aria-labelledby="delete-dialog-title">
       <div class="dialog-content">
         <div class="dialog-header">
-          <h3 class="dialog-title" id="dialog-title">Delete Note</h3>
-          <button class="close-btn" data-action="close">x</button>
+          <h3 class="delete-dialog-title" id="delete-dialog-title">
+            Delete Note
+          </h3>
+          <button class="close-btn" data-action="close">
+            <i class="cancel-btn" data-lucide="circle-x"></i>
+          </button>
         </div>
 
         <p>Are you sure you want to delete this note?</p>

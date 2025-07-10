@@ -3,7 +3,16 @@ import {
   initDeleteConfirmation,
   closeConfirmDialog,
 } from "./utils/confirmDialog.js";
-import { createIcons, Sun, Moon, Plus, Edit, Trash2 } from "lucide";
+import {
+  createIcons,
+  Sun,
+  Moon,
+  Plus,
+  Edit,
+  Trash2,
+  Search,
+  CircleX,
+} from "lucide";
 
 let notes = [];
 let allNotes = [];
@@ -162,6 +171,7 @@ function updateThemeIcon(isDark) {
   });
 }
 
+// DOM ready
 document.addEventListener("DOMContentLoaded", function () {
   // Apply theme
   applyTheme();
@@ -174,11 +184,9 @@ document.addEventListener("DOMContentLoaded", function () {
       Plus,
       Edit,
       Trash2,
+      Search,
+      CircleX,
     },
-  });
-
-  const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
-    deleteNote(id);
   });
 
   document
@@ -190,11 +198,17 @@ document.addEventListener("DOMContentLoaded", function () {
   allNotes = [...notes];
   filteredNotes = [...notes];
 
+  const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
+    deleteNote(id);
+    editingNoteId = null;
+  }, notes);
+
   renderNotes();
 
   // Other event listeners
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
+  // Close note & confirm dialogs on click outside
   document
     .getElementById("note-dialog")
     .addEventListener("click", function (e) {
@@ -203,8 +217,17 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+  document
+    .getElementById("delete-dialog")
+    .addEventListener("click", function (e) {
+      if (e.target == this) {
+        closeConfirmDialog();
+      }
+    });
+
   document.addEventListener("click", (e) => {
     const actionBtn = e.target.closest("[data-action]");
+
     if (!actionBtn) return;
 
     const action = actionBtn.dataset.action;
@@ -217,6 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (action === "edit") {
         openNoteDialog(noteId);
       } else if (action === "delete") {
+        editingNoteId = null;
         showDeleteConfirmation(noteId);
       }
     } else if (action === "close") {
