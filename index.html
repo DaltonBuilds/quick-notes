@@ -30,7 +30,7 @@
             <span class="note-count">(0)</span>
           </button>
 
-          <button id="unorganized-notes" class="folder-items">
+          <button id="uncategorized-notes" class="folder-items">
             <i data-lucide="file"> </i>
             <span>Uncategorized</span>
             <span class="note-count">(0)</span>
@@ -39,14 +39,14 @@
       </div>
 
       <!-- Folder Dialog -->
-      <dialog id="" aria-labelledby="dialog-title">
+      <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
         <div class="">
           <h2>New Folder</h2>
-          <form id="">
+          <form id="folder-form">
             <input type="text" id="folder-name" placeholder="Folder Name" />
             <div class="">
               <button type="button" data-action="cancel">Cancel</button>
-              <button type="submit">Submit</button>
+              <button type="submit">Save</button>
             </div>
           </form>
         </div>

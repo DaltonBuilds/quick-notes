@@ -1,4 +1,5 @@
 import { setupSearch } from "./utils/search.js";
+import { loadFolders, createFolder, deleteFolder } from "./utils/folders.js";
 import {
   initDeleteConfirmation,
   closeConfirmDialog,
@@ -52,6 +53,7 @@ function saveNote(event) {
       id: generateId(),
       title: title,
       content: content,
+      folderId: activeFolderId,
     });
   }
 
@@ -63,11 +65,11 @@ function saveNote(event) {
   closeNoteDialog();
 }
 
-function generateId() {
+export function generateId() {
   return Math.floor(Math.random() * 1000000);
 }
 
-function saveNotes(notes) {
+export function saveNotes(notes) {
   localStorage.setItem("quick-notes", JSON.stringify(notes));
 }
 
@@ -79,7 +81,7 @@ function deleteNote(id) {
   renderNotes();
 }
 
-function renderNotes() {
+export function renderNotes() {
   const notesContainer = document.getElementById("notes-container");
   notesContainer.innerHTML =
     filteredNotes.length === 0
@@ -188,6 +190,47 @@ document.addEventListener("DOMContentLoaded", function () {
       CircleX,
     },
   });
+
+  // Load folders
+  loadFolders();
+
+  // New folder button
+  document.getElementById("new-folder-btn").addEventListener("click", () => {
+    document.getElementById("folder-dialog-title").textContent = "New Folder";
+    document.getElementById("folder-name").value = "";
+    document.getElementById("folder-dialog").showModal();
+  });
+
+  // Folder form submission
+  document.getElementById("folder-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("folder-name").value;
+    createFolder(name);
+    document.getElementById("folder-dialog").close();
+  });
+
+  // Clicking a folder
+  document.getElementById("folder-list").addEventListener("click", (e) => {
+    const folderBtn = e.target.closest("[data-folder-id]");
+    if (!folderBtn) return;
+    const folderId = folderBtn.dataset.folderId;
+    filterNotesByFolder(folderId);
+  });
+
+  // "All Notes" button
+  document.getElementById("show-all-notes").addEventListener("click", () => {
+    filterNotesByFolder(null);
+  });
+
+  // "Uncategorized" button
+  document
+    .getElementById("uncategorized-notes")
+    .addEventListener("click", () => {
+      filteredNotes = notes.filter((note) => !note.folderId);
+      activeFolderId = null;
+      renderNotes();
+      renderFolders();
+    });
 
   document
     .getElementById("theme-toggle-btn")

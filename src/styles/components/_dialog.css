@@ -139,3 +139,16 @@ dialog::backdrop {
   background: var(destructive-color-hover);
   color: white;
 }
+
+/* Folder Dialog */
+#folder-dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 90%;
+  max-width: 400px;
+}
+
+#folder-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
