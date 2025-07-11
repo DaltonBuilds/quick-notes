@@ -1,0 +1,141 @@
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  border: none;
+  border-radius: 1rem;
+  padding: 0;
+  background: var(--surface-color);
+  color: var(--text-color);
+  min-width: 400px;
+  max-width: 80%;
+  width: 40vw;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: var(--z-dialog);
+}
+
+dialog[open] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.dark-theme dialog {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dialog-content {
+  padding: 2rem;
+}
+
+.form-input,
+.form-textarea {
+  background: var(--base-color);
+  border-color: var(--base-color);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand-color), transparent 70%);
+}
+
+.close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--secondary-text-color);
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--surface-color);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background: var(--base-color);
+  color: var(--text-color);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--brand-color);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancel-btn,
+.save-btn,
+.destructive-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: var(--base-color);
+  color: var(--text-color);
+}
+
+.save-btn {
+  background: var(--brand-color);
+  color: white;
+}
+
+.save-btn:hover {
+  background: var(--brand-color-hover);
+}
+
+.destructive-btn {
+  background: var(--destructive-color);
+  color: white;
+}
+
+.destructive-btn:hover {
+  background: var(destructive-color-hover);
+  color: white;
+}

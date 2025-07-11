@@ -1,0 +1,30 @@
+.search-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--base-color);
+  color: var(--text-color);
+  border: 1px solid var(--surface-color);
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.search-bar .search {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary-text-color);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.search-bar input:focus {
+  border-color: var(--accent-color);
+}

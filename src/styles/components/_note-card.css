@@ -1,0 +1,79 @@
+.add-note-btn {
+  background: var(--brand-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.add-note-btn:hover {
+  background: var(--brand-color-hover);
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.note-card {
+  background: var(--surface-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--surface-color);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.note-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.note-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+  word-wrap: break-word;
+}
+
+.note-content {
+  color: var(--secondary-text-color);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.note-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.note-card:hover .note-actions {
+  opacity: 1;
+  visibility: visible;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  background: none;
+  color: var(--text-color);
+}

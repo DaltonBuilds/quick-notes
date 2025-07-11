@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--brand-color);
+  color: white;
+}
+
+body {
+  font-family: Poppins, sans-serif;
+  margin: 2rem;
+  background: var(--base-color);
+  color: var(--text-color);
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}

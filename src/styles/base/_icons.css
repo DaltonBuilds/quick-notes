@@ -1,0 +1,36 @@
+[data-lucide="edit"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-color);
+  stroke: var(--text-color);
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
+
+[data-lucide="edit"]:hover {
+  opacity: 0.9;
+  transition: 0.3s ease;
+}
+
+[data-lucide="trash2"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: red;
+  stroke: red;
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
+
+[data-lucide="trash2"]:hover {
+  opacity: 0.9;
+  transition: 0.3s ease;
+}
+
+[data-lucide="circle-x"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--destructive-color);
+  stroke: var(--destructive-color);
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
