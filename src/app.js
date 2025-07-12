@@ -13,6 +13,10 @@ import {
   Trash2,
   Search,
   CircleX,
+  FolderPlus,
+  Archive,
+  File,
+  GripVertical,
 } from "lucide";
 
 let notes = [];
@@ -188,6 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
       Trash2,
       Search,
       CircleX,
+      FolderPlus,
+      Archive,
+      File,
+      GripVertical,
     },
   });
 
@@ -296,4 +304,38 @@ document.addEventListener("DOMContentLoaded", function () {
     filteredNotes = results;
     renderNotes();
   });
+
+  // Sidebar resizing
+  const sidebar = document.getElementById("sidebar");
+  const resizeHandle = document.querySelector(".sidebar-resize-handle");
+
+  let isResizing = false;
+
+  resizeHandle.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    // Prevent text selection during drag
+    document.body.style.userSelect = "none";
+    document.body.style.cursor = "ew-resize";
+  });
+
+  function handleMouseMove(e) {
+    if (!isResizing) return;
+    const newWidth = e.clientX;
+    // Optional: Add constraints for min/max width if needed
+    // const minWidth = 50; // Example min-width
+    // const maxWidth = 400; // Example max-width
+    // const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+    sidebar.style.width = `${newWidth}px`;
+  }
+
+  function handleMouseUp() {
+    isResizing = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+    // Restore text selection
+    document.body.style.userSelect = "";
+    document.body.style.cursor = "";
+  }
 });

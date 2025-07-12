@@ -3,78 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Notes</title>
+    <title>...notes</title>
     <link rel="stylesheet" href="/src/styles/main.css" />
     <script src="/src/app.js" defer type="module"></script>
   </head>
   <body>
-    <header>
-      <h1>Quick Notes</h1>
-
-      <!-- Sidebar -->
-      <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-          <h2>Add Folder</h2>
-          <button id="new-folder-btn" class="icon-btn" title="New Folder">
-            <i data-lucide="folder-plus"> </i>
-          </button>
-        </div>
-
-        <ul id="folder-list" class="folder-list"></ul>
-
-        <!-- "Uncategorized" section for notes without a folder -->
-        <div class="uncategorized-section">
-          <button id="show-all-notes" class="folder-item">
-            <i data-lucide="archive"> </i>
-            <span>All Notes</span>
-            <span class="note-count">(0)</span>
-          </button>
-
-          <button id="uncategorized-notes" class="folder-items">
-            <i data-lucide="file"> </i>
-            <span>Uncategorized</span>
-            <span class="note-count">(0)</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Folder Dialog -->
-      <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
-        <div class="">
-          <h2>New Folder</h2>
-          <form id="folder-form">
-            <input type="text" id="folder-name" placeholder="Folder Name" />
-            <div class="">
-              <button type="button" data-action="cancel">Cancel</button>
-              <button type="submit">Save</button>
-            </div>
-          </form>
-        </div>
-      </dialog>
-
-      <!-- Search Bar -->
-      <div class="search-bar">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="search notes..."
-          autocapitalize="off"
-          autocomplete="off"
-        />
-        <i class="search" data-lucide="search"></i>
-      </div>
-
-      <!-- Theme Toggle & Add Note Button -->
-      <div>
-        <button class="add-note-btn" data-action="add">Add Note</button>
-        <button id="theme-toggle-btn" class="theme-toggle-btn">
-          <i data-lucide="moon"></i>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h1>...notes</h1>
+        <button id="new-folder-btn" class="icon-btn" title="New Folder">
+          <i data-lucide="folder-plus"></i>
         </button>
       </div>
-    </header>
 
-    <!-- Main Notes Container -->
-    <main id="notes-container" class="notes-grid"></main>
+      <ul id="folder-list" class="folder-list"></ul>
+
+      <!-- "Uncategorized" section for notes without a folder -->
+      <div class="uncategorized-section">
+        <button id="show-all-notes" class="folder-item">
+          <i data-lucide="archive"></i>
+          <span>All Notes</span>
+          <span class="note-count">(0)</span>
+        </button>
+
+        <button id="uncategorized-notes" class="folder-item">
+          <i data-lucide="file"> </i>
+          <span>Uncategorized</span>
+          <span class="note-count">(0)</span>
+        </button>
+      </div>
+      <div class="sidebar-resize-handle">
+        <i data-lucide="grip-vertical"></i>
+      </div>
+    </div>
+
+    <div class="content-container">
+      <header>
+        <!-- Folder Dialog -->
+        <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
+          <div class="">
+            <h2>New Folder</h2>
+            <form id="folder-form">
+              <input type="text" id="folder-name" placeholder="Folder Name" />
+              <div class="">
+                <button type="button" data-action="cancel">Cancel</button>
+                <button type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </dialog>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="search notes..."
+            autocapitalize="off"
+            autocomplete="off"
+          />
+          <i class="search" data-lucide="search"></i>
+        </div>
+
+        <!-- Theme Toggle & Add Note Button -->
+        <div>
+          <button class="add-note-btn" data-action="add">Add Note</button>
+          <button id="theme-toggle-btn" class="theme-toggle-btn">
+            <i data-lucide="moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Notes Container -->
+      <main id="notes-container" class="notes-grid"></main>
+    </div>
 
     <!-- Delete Note Dialog -->
     <dialog id="delete-dialog" aria-labelledby="delete-dialog-title">

@@ -11,9 +11,11 @@
 
 body {
   font-family: Poppins, sans-serif;
-  margin: 2rem;
   background: var(--base-color);
   color: var(--text-color);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
 h1 {
@@ -31,4 +33,18 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  padding-top: 2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.content-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+main {
+  padding-bottom: 2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
 }

@@ -21,13 +21,19 @@
   background: var(--hover-bg);
 }
 
-.folder-item i {
-  margin-right: 0.5rem;
-  color: var(--folder-icon-color);
+[data-lucide="folder-plus"] {
+  margin: 0 0.5rem;
+  color: var(--secondary-text-color);
+}
+
+[data-lucide="archive"],
+[data-lucide="file"] {
+  margin: 0 0.5rem;
+  color: var(--secondary-text-color);
 }
 
 .folder-item.active {
-  background: var(--active-folder-bg);
+  background: var(--brand-color);
   font-weight: bold;
 }
 
@@ -35,4 +41,10 @@
   margin-left: auto;
   font-size: 0.8rem;
   opacity: 0.7;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
