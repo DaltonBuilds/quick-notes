@@ -23,11 +23,11 @@ dialog[open] {
 }
 
 .dark-theme dialog {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(109, 105, 219, 0.5);
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(92, 82, 232, 0.195);
 }
 
 .dialog-content {
@@ -103,31 +103,6 @@ dialog::backdrop {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
-}
-
-.cancel-btn,
-.save-btn,
-.destructive-btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.cancel-btn {
-  background: var(--base-color);
-  color: var(--text-color);
-}
-
-.save-btn {
-  background: var(--brand-color);
-  color: white;
-}
-
-.save-btn:hover {
-  background: var(--brand-color-hover);
 }
 
 .destructive-btn {

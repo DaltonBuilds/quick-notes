@@ -12,9 +12,7 @@
     <div id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <h1>...notes</h1>
-        <button id="new-folder-btn" class="icon-btn" title="New Folder">
-          <i data-lucide="folder-plus"></i>
-        </button>
+        <i data-lucide="folder-plus" id="new-folder-icon" class="icon-btn"></i>
       </div>
 
       <ul id="folder-list" class="folder-list"></ul>
@@ -43,12 +41,18 @@
         <!-- Folder Dialog -->
         <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
           <div class="">
-            <h2>New Folder</h2>
+            <h2 id="folder-dialog-title">New Folder</h2>
             <form id="folder-form">
               <input type="text" id="folder-name" placeholder="Folder Name" />
               <div class="">
-                <button type="button" data-action="cancel">Cancel</button>
-                <button type="submit">Save</button>
+                <button
+                  type="button"
+                  class="secondary-btn"
+                  data-action="cancel"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="primary-btn">Save</button>
               </div>
             </form>
           </div>
@@ -68,7 +72,7 @@
 
         <!-- Theme Toggle & Add Note Button -->
         <div>
-          <button class="add-note-btn" data-action="add">Add Note</button>
+          <button class="primary-btn" data-action="add">Add Note</button>
           <button id="theme-toggle-btn" class="theme-toggle-btn">
             <i data-lucide="moon"></i>
           </button>
@@ -87,19 +91,20 @@
             Delete Note
           </h3>
           <button class="close-btn" data-action="close">
-            <i class="cancel-btn" data-lucide="circle-x"></i>
+            <i class="btn" data-lucide="circle-x"></i>
           </button>
         </div>
 
         <p>Are you sure you want to delete this note?</p>
 
         <div class="dialog-actions">
-          <button type="button" class="cancel-btn" data-action="close">
+          <button type="button" class="secondary-btn" data-action="close">
             Cancel
           </button>
           <button
             type="submit"
             class="destructive-btn"
+            class="btn"
             data-action="confirm-delete"
           >
             Delete
@@ -139,10 +144,10 @@
           </div>
 
           <div class="dialog-actions">
-            <button type="button" class="cancel-btn" data-action="close">
+            <button type="button" class="secondary-btn" data-action="close">
               Cancel
             </button>
-            <button type="submit" class="save-btn">Save Note</button>
+            <button type="submit" class="primary-btn">Save Note</button>
           </div>
         </form>
       </div>

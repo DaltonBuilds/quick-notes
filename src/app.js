@@ -92,8 +92,8 @@ export function renderNotes() {
       ? `
     <div class="empty-state">
       <h2>No notes yet</h2>
-      <p>Click the + button to add a new note</p>
-      <button class="add-note-btn" data-action="add">Add Note</button>
+      <p>Click the button below to add a new note</p>
+      <button class="primary-btn" data-action="add">Add Note</button>
     </div>
     `
       : filteredNotes
@@ -103,8 +103,8 @@ export function renderNotes() {
         <h3 class="note-title">${note.title}</h3>
         <p class="note-content">${note.content}</p>
         <div class="note-actions">
-          <button class="edit-btn" data-action="edit" title="Edit Note"><i data-lucide="edit"></i></button>
-          <button class="delete-btn" data-action="delete" title="Delete Note"><i data-lucide="trash2"></i></button>
+          <i data-lucide="edit" class="edit-btn" data-action="edit" title="Edit Note"></i>
+          <i data-lucide="trash2" class="delete-btn" data-action="delete" title="Delete Note"></i>
         </div>
       </div>
       `
@@ -203,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
   loadFolders();
 
   // New folder button
-  document.getElementById("new-folder-btn").addEventListener("click", () => {
-    document.getElementById("folder-dialog-title").textContent = "New Folder";
+  document.getElementById("new-folder-icon").addEventListener("click", () => {
+    document.getElementById("folder-dialog-title").textContent = "";
     document.getElementById("folder-name").value = "";
     document.getElementById("folder-dialog").showModal();
   });

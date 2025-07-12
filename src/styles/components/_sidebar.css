@@ -38,10 +38,9 @@
 .sidebar-resize-handle [data-lucide="grip-vertical"] {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: -13px;
+  transform: translateY(-50%);
   color: var(--secondary-text-color);
-  font-size: 1rem;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;

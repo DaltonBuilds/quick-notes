@@ -24,7 +24,6 @@ export function createFolder(name) {
   renderFolders();
 }
 
-// Delete a folder (move its notes to "Uncategorized")
 export function deleteFolder(folderId) {
   notes = notes.map((note) =>
     note.folderId === folderId ? { ...note, folderId: null } : note
@@ -66,7 +65,7 @@ function filterNotesByFolder(folderId) {
   activeFolderId = folderId;
   filteredNotes = folderId
     ? notes.filter((note) => note.folderId === folderId)
-    : [...notes]; // Show all if null
+    : [...notes];
   renderNotes();
-  renderFolders(); // Update active state
+  renderFolders();
 }

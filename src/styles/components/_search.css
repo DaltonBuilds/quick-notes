@@ -10,7 +10,7 @@
   padding: 0.75rem;
   background: var(--base-color);
   color: var(--text-color);
-  border: 1px solid var(--surface-color);
+  border: 1px solid var(--secondary-text-color);
   border-radius: 0.5rem;
   outline: none;
 }
