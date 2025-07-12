@@ -38,26 +38,6 @@
 
     <div class="content-container">
       <header>
-        <!-- Folder Dialog -->
-        <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
-          <div class="">
-            <h2 id="folder-dialog-title">New Folder</h2>
-            <form id="folder-form">
-              <input type="text" id="folder-name" placeholder="Folder Name" />
-              <div class="">
-                <button
-                  type="button"
-                  class="secondary-btn"
-                  data-action="cancel"
-                >
-                  Cancel
-                </button>
-                <button type="submit" class="primary-btn">Save</button>
-              </div>
-            </form>
-          </div>
-        </dialog>
-
         <!-- Search Bar -->
         <div class="search-bar">
           <input
@@ -117,7 +97,7 @@
     <dialog id="note-dialog">
       <div class="dialog-content">
         <div class="dialog-header">
-          <h2 class="dialog-title" id="dialog-title">Add New Note</h2>
+          <h2 id="dialog-title" class="dialog-title">Add New Note</h2>
           <button class="close-btn" data-action="close">x</button>
         </div>
 
@@ -148,6 +128,35 @@
               Cancel
             </button>
             <button type="submit" class="primary-btn">Save Note</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- Folder Dialog -->
+    <dialog id="folder-dialog" aria-labelledby="folder-dialog-title">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h2 id="folder-dialog-title" class="dialog-title">New Folder</h2>
+          <button class="close-btn" data-action="close">x</button>
+        </div>
+
+        <form id="folder-form">
+          <div class="form-group">
+            <label for="folder-name" class="form-label">Title</label>
+            <input
+              type="text"
+              id="folder-name"
+              class="form-input"
+              placeholder="Enter folder name..."
+              required
+            />
+          </div>
+          <div class="dialog-actions">
+            <button type="button" class="secondary-btn" data-action="cancel">
+              Cancel
+            </button>
+            <button type="submit" class="primary-btn">Save</button>
           </div>
         </form>
       </div>

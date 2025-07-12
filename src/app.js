@@ -1,9 +1,32 @@
 import { setupSearch } from "./utils/search.js";
-import { loadFolders, createFolder, deleteFolder } from "./utils/folders.js";
+import { initSidebarResizing } from "./utils/sidebar.js";
+import {
+  loadFolders,
+  createFolder,
+  deleteFolder,
+  closeFolderDialog,
+  renderFolders,
+  setActiveFolder,
+} from "./utils/folders.js";
 import {
   initDeleteConfirmation,
   closeConfirmDialog,
 } from "./utils/confirmDialog.js";
+import {
+  loadNotes,
+  saveNote,
+  deleteNote,
+  renderNotes,
+  openNoteDialog,
+  closeNoteDialog,
+  filterNotesByFolder,
+  setNotes,
+  getAllNotes,
+  setFilteredNotes,
+  setEditingNoteId,
+  showUncategorizedNotes,
+} from "./utils/notes.js";
+
 import {
   createIcons,
   Sun,
@@ -18,136 +41,6 @@ import {
   File,
   GripVertical,
 } from "lucide";
-
-let notes = [];
-let allNotes = [];
-let filteredNotes = [];
-let editingNoteId = null;
-
-function loadNotes() {
-  try {
-    const savedNotes = localStorage.getItem("quick-notes");
-    if (!savedNotes || savedNotes === "undefined") {
-      return [];
-    }
-    return JSON.parse(savedNotes);
-  } catch (e) {
-    console.error("Failed to load notes 🤔", e);
-    return [];
-  }
-}
-
-function saveNote(event) {
-  event.preventDefault();
-
-  const title = document.getElementById("note-title").value.trim();
-  const content = document.getElementById("note-content").value.trim();
-
-  if (editingNoteId) {
-    // Editing an existing note...
-    const noteIndex = notes.findIndex((note) => note.id === editingNoteId);
-    notes[noteIndex] = {
-      ...notes[noteIndex],
-      title: title,
-      content: content,
-    };
-  } else {
-    // Creating a new note...
-    notes.unshift({
-      id: generateId(),
-      title: title,
-      content: content,
-      folderId: activeFolderId,
-    });
-  }
-
-  allNotes = [...notes];
-  filteredNotes = [...notes];
-
-  saveNotes(notes);
-  renderNotes();
-  closeNoteDialog();
-}
-
-export function generateId() {
-  return Math.floor(Math.random() * 1000000);
-}
-
-export function saveNotes(notes) {
-  localStorage.setItem("quick-notes", JSON.stringify(notes));
-}
-
-function deleteNote(id) {
-  notes = notes.filter((note) => note.id !== id);
-  allNotes = [...notes];
-  filteredNotes = [...notes];
-  saveNotes(notes);
-  renderNotes();
-}
-
-export function renderNotes() {
-  const notesContainer = document.getElementById("notes-container");
-  notesContainer.innerHTML =
-    filteredNotes.length === 0
-      ? `
-    <div class="empty-state">
-      <h2>No notes yet</h2>
-      <p>Click the button below to add a new note</p>
-      <button class="primary-btn" data-action="add">Add Note</button>
-    </div>
-    `
-      : filteredNotes
-          .map(
-            (note) => `
-      <div class="note-card" data-id="${note.id}">
-        <h3 class="note-title">${note.title}</h3>
-        <p class="note-content">${note.content}</p>
-        <div class="note-actions">
-          <i data-lucide="edit" class="edit-btn" data-action="edit" title="Edit Note"></i>
-          <i data-lucide="trash2" class="delete-btn" data-action="delete" title="Delete Note"></i>
-        </div>
-      </div>
-      `
-          )
-          .join("");
-
-  createIcons({
-    icons: {
-      Edit,
-      Trash2,
-    },
-  });
-}
-
-function openNoteDialog(noteId = null) {
-  const dialog = document.getElementById("note-dialog");
-  const titleInput = document.getElementById("note-title");
-  const contentInput = document.getElementById("note-content");
-
-  if (noteId !== null) {
-    // Editing an existing note...
-    const noteToEdit = notes.find((note) => note.id === noteId);
-    editingNoteId = noteId;
-    document.getElementById(
-      "dialog-title"
-    ).innerHTML = `Edit Note: ${noteToEdit.title}`;
-    titleInput.value = noteToEdit.title;
-    contentInput.value = noteToEdit.content;
-  } else {
-    // New note...
-    editingNoteId = null;
-    document.getElementById("dialog-title").innerHTML = "Add New Note";
-    titleInput.value = "";
-    contentInput.value = "";
-  }
-
-  dialog.showModal();
-  titleInput.focus({ preventScroll: true });
-}
-
-function closeNoteDialog() {
-  document.getElementById("note-dialog").close();
-}
 
 function toggleTheme() {
   const isDark = document.body.classList.toggle("dark-theme");
@@ -204,7 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // New folder button
   document.getElementById("new-folder-icon").addEventListener("click", () => {
-    document.getElementById("folder-dialog-title").textContent = "";
+    document.getElementById("folder-dialog-title").textContent =
+      "Add New Folder";
     document.getElementById("folder-name").value = "";
     document.getElementById("folder-dialog").showModal();
   });
@@ -221,23 +115,20 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("folder-list").addEventListener("click", (e) => {
     const folderBtn = e.target.closest("[data-folder-id]");
     if (!folderBtn) return;
-    const folderId = folderBtn.dataset.folderId;
-    filterNotesByFolder(folderId);
+    const folderId = parseInt(folderBtn.dataset.folderId);
+    filterNotesByFolder(folderId); // Use filterNotesByFolder from notes.js
   });
 
   // "All Notes" button
   document.getElementById("show-all-notes").addEventListener("click", () => {
-    filterNotesByFolder(null);
+    filterNotesByFolder(null); // Use filterNotesByFolder from notes.js
   });
 
   // "Uncategorized" button
   document
     .getElementById("uncategorized-notes")
     .addEventListener("click", () => {
-      filteredNotes = notes.filter((note) => !note.folderId);
-      activeFolderId = null;
-      renderNotes();
-      renderFolders();
+      showUncategorizedNotes(); // Use showUncategorizedNotes from notes.js
     });
 
   document
@@ -245,21 +136,19 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", toggleTheme);
 
   // Load notes
-  notes = loadNotes();
-  allNotes = [...notes];
-  filteredNotes = [...notes];
+  setNotes(loadNotes()); // Load and set notes in notes.js
 
   const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
     deleteNote(id);
-    editingNoteId = null;
-  }, notes);
+    setEditingNoteId(null); // Set editingNoteId in notes.js
+  }, getAllNotes()); // Pass all notes from notes.js
 
   renderNotes();
 
   // Other event listeners
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
-  // Close note & confirm dialogs on click outside
+  // Close dialogs on click outside
   document
     .getElementById("note-dialog")
     .addEventListener("click", function (e) {
@@ -273,6 +162,14 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", function (e) {
       if (e.target == this) {
         closeConfirmDialog();
+      }
+    });
+
+  document
+    .getElementById("folder-dialog")
+    .addEventListener("click", function (e) {
+      if (e.target == this) {
+        closeFolderDialog();
       }
     });
 
@@ -291,51 +188,21 @@ document.addEventListener("DOMContentLoaded", function () {
       if (action === "edit") {
         openNoteDialog(noteId);
       } else if (action === "delete") {
-        editingNoteId = null;
+        setEditingNoteId(null); // Set editingNoteId in notes.js
         showDeleteConfirmation(noteId);
       }
     } else if (action === "close") {
       closeNoteDialog();
       closeConfirmDialog();
+      closeFolderDialog();
     }
   });
 
-  setupSearch(allNotes, (results) => {
-    filteredNotes = results;
+  initSidebarResizing();
+
+  setupSearch(getAllNotes(), (results) => {
+    // Pass all notes from notes.js
+    setFilteredNotes(results); // Set filtered notes in notes.js
     renderNotes();
   });
-
-  // Sidebar resizing
-  const sidebar = document.getElementById("sidebar");
-  const resizeHandle = document.querySelector(".sidebar-resize-handle");
-
-  let isResizing = false;
-
-  resizeHandle.addEventListener("mousedown", (e) => {
-    isResizing = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-    // Prevent text selection during drag
-    document.body.style.userSelect = "none";
-    document.body.style.cursor = "ew-resize";
-  });
-
-  function handleMouseMove(e) {
-    if (!isResizing) return;
-    const newWidth = e.clientX;
-    // Optional: Add constraints for min/max width if needed
-    // const minWidth = 50; // Example min-width
-    // const maxWidth = 400; // Example max-width
-    // const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
-    sidebar.style.width = `${newWidth}px`;
-  }
-
-  function handleMouseUp() {
-    isResizing = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-    // Restore text selection
-    document.body.style.userSelect = "";
-    document.body.style.cursor = "";
-  }
 });
