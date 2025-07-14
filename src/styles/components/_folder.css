@@ -18,12 +18,15 @@
 }
 
 .folder-item:hover {
-  background: var(--hover-bg);
+  background: color-mix(in srgb, var(--surface-color), var(--base-color) 50%);
+  color: var(--brand-color);
 }
 
 [data-lucide="folder-plus"] {
   margin: 0 0.5rem;
   color: var(--secondary-text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 [data-lucide="archive"],
@@ -46,5 +49,6 @@
 .icon-btn {
   background: none;
   border: none;
+  margin-right: 0.5rem;
   cursor: pointer;
 }

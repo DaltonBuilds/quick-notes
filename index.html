@@ -12,7 +12,14 @@
     <div id="sidebar" class="sidebar">
       <div class="sidebar-header">
         <h1>...notes</h1>
-        <i data-lucide="folder-plus" id="new-folder-icon" class="icon-btn"></i>
+        <i
+          data-lucide="folder-plus"
+          type="button"
+          id="new-folder-icon"
+          class="new-folder-icon"
+          aria-labelledby="title"
+          title="New Folder"
+        ></i>
       </div>
 
       <ul id="folder-list" class="folder-list"></ul>
@@ -49,12 +56,30 @@
           />
           <i class="search" data-lucide="search"></i>
         </div>
+        <button
+          id="grid-view-btn"
+          class="grid-view-btn"
+          title="Toggle grid view"
+          aria-label="Toggle grid view"
+          data-action="toggle-grid-view"
+        >
+          <i data-lucide="layout-grid"></i>
+        </button>
 
         <!-- Theme Toggle & Add Note Button -->
-        <div>
-          <button class="primary-btn" data-action="add">Add Note</button>
-          <button id="theme-toggle-btn" class="theme-toggle-btn">
+
+        <div class="header-actions">
+          <button
+            id="theme-toggle-icon"
+            class="theme-toggle-icon"
+            data-action="toggle-theme"
+            title="Toggle theme"
+            aria-label="Toggle theme"
+          >
             <i data-lucide="moon"></i>
+          </button>
+          <button class="primary-btn" data-action="add" title="Add a new note">
+            Add Note
           </button>
         </div>
       </header>

@@ -1,5 +1,5 @@
 :root {
-  --brand-color: #2831ea;
+  --brand-color: rgb(40, 49, 234);
   --brand-color-hover: color-mix(in srgb, var(--brand-color), #191b23 25%);
   --base-color: #f2f4f8;
   --base-color-hover: color-mix(in srgb, var(--base-color), #191b23 25%);
@@ -19,7 +19,8 @@
 }
 
 .dark-theme {
-  --brand-color: #2831ea;
+  --brand-color: rgb(40, 49, 234);
+  --brand-color-hover: color-mix(in srgb, var(--brand-color), #191b23 25%);
   --base-color: #232639;
   --base-color-hover: color-mix(in srgb, var(--base-color), #000000 25%);
   --surface-color: #14142d;

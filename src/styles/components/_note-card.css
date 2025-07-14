@@ -77,3 +77,53 @@
   background: none;
   color: var(--text-color);
 }
+
+/* List View Styles */
+.notes-list {
+  display: block; /* Override grid for list view */
+  gap: 0; /* Remove gap */
+}
+
+.note-list-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-color);
+  border-radius: 0; /* Remove border-radius for list items */
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color); /* Add bottom border */
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.note-list-item:hover {
+  background: var(--surface-color-hover); /* Change hover background */
+  transform: none; /* Remove scale transform */
+  box-shadow: none; /* Remove box shadow */
+}
+
+.note-list-item .note-title {
+  font-size: 1rem; /* Adjust title font size */
+  margin-bottom: 0.25rem; /* Adjust margin */
+}
+
+.note-list-item .note-content {
+  font-size: 0.9rem; /* Adjust content font size */
+  color: var(--secondary-text-color);
+  margin-bottom: 0; /* Remove bottom margin */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.note-list-item .note-actions {
+  position: static; /* Change position to static */
+  margin-top: 0.5rem; /* Add some top margin */
+  opacity: 1; /* Always show actions in list view */
+  visibility: visible;
+  display: none; /* Hide actions in list view for now, can adjust later */
+}
+
+.note-list-item:hover .note-actions {
+  opacity: 1;
+  visibility: visible;
+}

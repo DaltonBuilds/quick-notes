@@ -61,7 +61,7 @@ export function renderFolders() {
             class="folder-item ${activeFolderId === folder.id ? "active" : ""}"
             data-folder-id="${folder.id}"
           >
-            <i data-lucide="folder"></i>
+            <i data-lucide="folder" class="icon-btn"></i>
             <span>${folder.name}</span>
             <span class="note-count">
               ${notes.filter((n) => n.folderId === folder.id).length}

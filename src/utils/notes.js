@@ -1,5 +1,4 @@
 import { createIcons, Edit, Trash2 } from "lucide";
-import { initDeleteConfirmation } from "./confirmDialog.js";
 import {
   closeFolderDialog,
   renderFolders,
@@ -73,7 +72,7 @@ export function deleteNote(id) {
   renderNotes();
 }
 
-export function renderNotes() {
+export function renderNotes(currentView = "grid") {
   const notesContainer = document.getElementById("notes-container");
   notesContainer.innerHTML =
     filteredNotes.length === 0
@@ -85,18 +84,24 @@ export function renderNotes() {
     </div>
     `
       : filteredNotes
-          .map(
-            (note) => `
-      <div class="note-card" data-id="${note.id}">
+          .map((note) => {
+            const isListView = currentView === "list";
+            const noteContent = isListView
+              ? `${note.content.substring(0, 100)}...`
+              : note.content;
+            return `
+      <div class="note-card ${isListView ? "note-list-item" : ""}" data-id="${
+              note.id
+            }">
         <h3 class="note-title">${note.title}</h3>
-        <p class="note-content">${note.content}</p>
+        <p class="note-content">${noteContent}</p>
         <div class="note-actions">
           <i data-lucide="edit" class="edit-btn" data-action="edit" title="Edit Note"></i>
           <i data-lucide="trash2" class="delete-btn" data-action="delete" title="Delete Note"></i>
         </div>
       </div>
-      `
-          )
+      `;
+          })
           .join("");
 
   createIcons({

@@ -40,8 +40,9 @@ import {
   Archive,
   File,
   GripVertical,
+  LayoutGrid,
+  List,
 } from "lucide";
-
 function toggleTheme() {
   const isDark = document.body.classList.toggle("dark-theme");
   localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -57,7 +58,7 @@ function applyTheme() {
 }
 
 function updateThemeIcon(isDark) {
-  const themeBtn = document.getElementById("theme-toggle-btn");
+  const themeBtn = document.getElementById("theme-toggle-icon");
   themeBtn.innerHTML = isDark
     ? '<i data-lucide="sun"></i>'
     : '<i data-lucide="moon"></i>';
@@ -73,7 +74,10 @@ function updateThemeIcon(isDark) {
 // DOM ready
 document.addEventListener("DOMContentLoaded", function () {
   // Apply theme
+
   applyTheme();
+
+  let currentView = "grid"; // State variable for current view
 
   // Initialize Lucide icons
   createIcons({
@@ -87,8 +91,11 @@ document.addEventListener("DOMContentLoaded", function () {
       CircleX,
       FolderPlus,
       Archive,
+
       File,
       GripVertical,
+      LayoutGrid,
+      List,
     },
   });
 
@@ -132,10 +139,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   document
-    .getElementById("theme-toggle-btn")
+    .getElementById("theme-toggle-icon")
     .addEventListener("click", toggleTheme);
 
+  // View toggle button
+
+  document.getElementById("grid-view-btn").addEventListener("click", () => {
+    currentView = currentView === "grid" ? "list" : "grid";
+    updateViewIcon();
+    const notesContainer = document.getElementById("notes-container");
+    notesContainer.classList.toggle("notes-grid", currentView === "grid");
+    notesContainer.classList.toggle("notes-list", currentView === "list");
+    renderNotes(currentView); // Pass current view to renderNotes
+  });
+
+  function updateViewIcon() {
+    const viewBtn = document.getElementById("grid-view-btn");
+    viewBtn.innerHTML =
+      currentView === "grid"
+        ? '<i data-lucide="layout-grid"></i>'
+        : '<i data-lucide="list"></i>';
+
+    createIcons({
+      icons: {
+        LayoutGrid,
+        List,
+      },
+    });
+  }
+
   // Load notes
+
   setNotes(loadNotes()); // Load and set notes in notes.js
 
   const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
@@ -143,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setEditingNoteId(null); // Set editingNoteId in notes.js
   }, getAllNotes()); // Pass all notes from notes.js
 
-  renderNotes();
+  renderNotes(currentView); // Initial render with current view
 
   // Other event listeners
   document.getElementById("note-form").addEventListener("submit", saveNote);
@@ -203,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupSearch(getAllNotes(), (results) => {
     // Pass all notes from notes.js
     setFilteredNotes(results); // Set filtered notes in notes.js
-    renderNotes();
+
+    renderNotes(currentView);
   });
 });

@@ -19,7 +19,7 @@ function handleMouseUp() {
 
 export function initSidebarResizing() {
   if (resizeHandle) {
-    resizeHandle.addEventListener("mousedown", (e) => {
+    resizeHandle.addEventListener("mousedown", () => {
       isResizing = true;
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
