@@ -43,6 +43,7 @@
       </div>
     </div>
 
+    <!-- Main Content Container -->
     <div class="content-container">
       <header>
         <!-- Search Bar -->
@@ -56,19 +57,18 @@
           />
           <i class="search" data-lucide="search"></i>
         </div>
-        <button
-          id="grid-view-btn"
-          class="grid-view-btn"
-          title="Toggle grid view"
-          aria-label="Toggle grid view"
-          data-action="toggle-grid-view"
-        >
-          <i data-lucide="layout-grid"></i>
-        </button>
 
-        <!-- Theme Toggle & Add Note Button -->
-
+        <!-- Header Actions -->
         <div class="header-actions">
+          <button
+            id="grid-view-btn"
+            class="grid-view-btn"
+            title="Toggle view"
+            aria-label="Toggle grid view"
+            data-action="toggle-grid-view"
+          >
+            <i data-lucide="layout-grid"></i>
+          </button>
           <button
             id="theme-toggle-icon"
             class="theme-toggle-icon"
@@ -84,9 +84,11 @@
         </div>
       </header>
 
-      <!-- Main Notes Container -->
+      <!-- All Notes Container -->
       <main id="notes-container" class="notes-grid"></main>
     </div>
+
+    <!-- Dialogs -->
 
     <!-- Delete Note Dialog -->
     <dialog id="delete-dialog" aria-labelledby="delete-dialog-title">
@@ -118,7 +120,7 @@
       </div>
     </dialog>
 
-    <!-- Add Note Dialog -->
+    <!-- Note Dialog -->
     <dialog id="note-dialog">
       <div class="dialog-content">
         <div class="dialog-header">

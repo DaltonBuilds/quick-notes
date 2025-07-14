@@ -43,6 +43,7 @@ import {
   LayoutGrid,
   List,
 } from "lucide";
+
 function toggleTheme() {
   const isDark = document.body.classList.toggle("dark-theme");
   localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -73,13 +74,10 @@ function updateThemeIcon(isDark) {
 
 // DOM ready
 document.addEventListener("DOMContentLoaded", function () {
-  // Apply theme
-
   applyTheme();
 
-  let currentView = "grid"; // State variable for current view
+  let currentView = "grid";
 
-  // Initialize Lucide icons
   createIcons({
     icons: {
       Sun,
@@ -91,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
       CircleX,
       FolderPlus,
       Archive,
-
       File,
       GripVertical,
       LayoutGrid,
@@ -99,15 +96,17 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Load folders
   loadFolders();
 
   // New folder button
   document.getElementById("new-folder-icon").addEventListener("click", () => {
-    document.getElementById("folder-dialog-title").textContent =
-      "Add New Folder";
-    document.getElementById("folder-name").value = "";
-    document.getElementById("folder-dialog").showModal();
+    const titleElement = document.getElementById("folder-dialog-title");
+    const folderNameElement = document.getElementById("folder-name");
+    const folderDialog = document.getElementById("folder-dialog");
+
+    titleElement.textContent = "Add New Folder";
+    folderNameElement.value = "";
+    folderDialog.showModal();
   });
 
   // Folder form submission
@@ -123,34 +122,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const folderBtn = e.target.closest("[data-folder-id]");
     if (!folderBtn) return;
     const folderId = parseInt(folderBtn.dataset.folderId);
-    filterNotesByFolder(folderId); // Use filterNotesByFolder from notes.js
+    filterNotesByFolder(folderId);
   });
 
   // "All Notes" button
   document.getElementById("show-all-notes").addEventListener("click", () => {
-    filterNotesByFolder(null); // Use filterNotesByFolder from notes.js
+    filterNotesByFolder(null);
   });
 
   // "Uncategorized" button
   document
     .getElementById("uncategorized-notes")
     .addEventListener("click", () => {
-      showUncategorizedNotes(); // Use showUncategorizedNotes from notes.js
+      showUncategorizedNotes();
     });
 
   document
     .getElementById("theme-toggle-icon")
     .addEventListener("click", toggleTheme);
 
-  // View toggle button
-
+  // Toggle view
   document.getElementById("grid-view-btn").addEventListener("click", () => {
     currentView = currentView === "grid" ? "list" : "grid";
+
     updateViewIcon();
+
     const notesContainer = document.getElementById("notes-container");
     notesContainer.classList.toggle("notes-grid", currentView === "grid");
     notesContainer.classList.toggle("notes-list", currentView === "list");
-    renderNotes(currentView); // Pass current view to renderNotes
+
+    renderNotes(currentView);
   });
 
   function updateViewIcon() {
@@ -169,17 +170,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Load notes
-
-  setNotes(loadNotes()); // Load and set notes in notes.js
+  setNotes(loadNotes());
 
   const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
     deleteNote(id);
-    setEditingNoteId(null); // Set editingNoteId in notes.js
-  }, getAllNotes()); // Pass all notes from notes.js
+    setEditingNoteId(null);
+  }, getAllNotes());
 
-  renderNotes(currentView); // Initial render with current view
+  renderNotes(currentView);
 
-  // Other event listeners
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
   // Close dialogs on click outside
@@ -222,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (action === "edit") {
         openNoteDialog(noteId);
       } else if (action === "delete") {
-        setEditingNoteId(null); // Set editingNoteId in notes.js
+        setEditingNoteId(null);
         showDeleteConfirmation(noteId);
       }
     } else if (action === "close") {
@@ -235,8 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initSidebarResizing();
 
   setupSearch(getAllNotes(), (results) => {
-    // Pass all notes from notes.js
-    setFilteredNotes(results); // Set filtered notes in notes.js
+    setFilteredNotes(results);
 
     renderNotes(currentView);
   });
