@@ -7,7 +7,7 @@ export function initDeleteConfirmation(deleteHandler, notes) {
     if (e.target.closest('[data-action="confirm-delete"]')) {
       deleteHandler(pendingDeleteId);
       dialog.close();
-    } else if (e.target.closest('[data-action="cancel-delete"]')) {
+    } else if (e.target.closest('[data-action="close"]')) {
       dialog.close();
     }
   });

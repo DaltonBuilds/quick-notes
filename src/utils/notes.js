@@ -17,6 +17,7 @@ export function loadNotes() {
     if (!savedNotes || savedNotes === "undefined") {
       return [];
     }
+
     return JSON.parse(savedNotes);
   } catch (e) {
     console.error("Failed to load notes 🤔", e);
@@ -31,7 +32,6 @@ export function saveNote(event) {
   const content = document.getElementById("note-content").value.trim();
 
   if (editingNoteId) {
-    // Editing an existing note...
     const noteIndex = notes.findIndex((note) => note.id === editingNoteId);
     notes[noteIndex] = {
       ...notes[noteIndex],
@@ -44,7 +44,7 @@ export function saveNote(event) {
       id: generateId(),
       title: title,
       content: content,
-      folderId: activeFolderId, // Use activeFolderId from folders.js
+      folderId: activeFolderId,
     });
   }
 
@@ -143,21 +143,21 @@ export function closeNoteDialog() {
 }
 
 export function filterNotesByFolder(folderId) {
-  setActiveFolder(folderId); // Set active folder in folders.js
+  setActiveFolder(folderId);
   if (folderId === null) {
     filteredNotes = [...allNotes];
   } else {
     filteredNotes = allNotes.filter((note) => note.folderId === folderId);
   }
   renderNotes();
-  renderFolders(); // Re-render folders to update active state and counts
+  renderFolders();
 }
 
 export function showUncategorizedNotes() {
-  setActiveFolder(null); // Set active folder to null in folders.js
+  setActiveFolder(null);
   filteredNotes = allNotes.filter((note) => !note.folderId);
   renderNotes();
-  renderFolders(); // Re-render folders to update active state and counts
+  renderFolders();
 }
 
 export function getNotes() {

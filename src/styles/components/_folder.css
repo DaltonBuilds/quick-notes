@@ -22,6 +22,14 @@
   color: var(--brand-color);
 }
 
+.folder-item.active {
+  background: var(
+    --brand-color
+  ); /* 'active' state hasn't been completed yet' */
+  font-weight: bold;
+  color: white;
+}
+
 [data-lucide="folder-plus"] {
   margin: 0 0.5rem;
   color: var(--secondary-text-color);

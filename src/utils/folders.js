@@ -13,7 +13,7 @@ export let activeFolderId = null;
 export function loadFolders() {
   const savedFolders = localStorage.getItem("folders");
   folders = savedFolders ? JSON.parse(savedFolders) : [];
-  renderFolders(); // Render folders on load
+  renderFolders();
 }
 
 function saveFolders() {
@@ -36,23 +36,21 @@ export function closeFolderDialog() {
 }
 
 export function deleteFolder(folderId) {
-  const notes = getNotes(); // Get notes from notes.js
+  const notes = getNotes();
   const updatedNotes = notes.map((note) =>
     note.folderId === folderId ? { ...note, folderId: null } : note
   );
-  saveNotes(updatedNotes); // Save updated notes using notes.js function
+  saveNotes(updatedNotes);
 
-  // Remove the folder
   folders = folders.filter((folder) => folder.id !== folderId);
   saveFolders();
   renderFolders();
-  renderNotes(); // Re-render notes after deletion
+  renderNotes();
 }
 
-// Render folders in the sidebar
 export function renderFolders() {
   const folderList = document.getElementById("folder-list");
-  const notes = getNotes(); // Get notes from notes.js
+  const notes = getNotes();
   folderList.innerHTML = folders
     .map(
       (folder) => `
@@ -73,17 +71,17 @@ export function renderFolders() {
     .join("");
 
   createIcons({ icons: { Folder } });
-  updateFolderNoteCounts(); // Update note counts after rendering
+  updateFolderNoteCounts();
 }
 
 export function setActiveFolder(folderId) {
   activeFolderId = folderId;
-  filterNotes(folderId); // Use the filterNotes function from notes.js
-  renderFolders(); // Re-render folders to update active state
+  filterNotes(folderId);
+  renderFolders();
 }
 
 function updateFolderNoteCounts() {
-  const notes = getNotes(); // Get notes from notes.js
+  const notes = getNotes();
   document.querySelectorAll(".folder-item").forEach((button) => {
     const folderId = button.dataset.folderId;
     if (folderId) {

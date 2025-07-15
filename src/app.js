@@ -1,4 +1,4 @@
-import { setupSearch } from "./utils/search.js";
+import { filterNotes } from "./utils/search.js";
 import { initSidebarResizing } from "./utils/sidebar.js";
 import {
   loadFolders,
@@ -233,9 +233,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initSidebarResizing();
 
-  setupSearch(getAllNotes(), (results) => {
-    setFilteredNotes(results);
-
+  const searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("input", (e) => {
+    const term = e.target.value.trim();
+    setFilteredNotes(filterNotes(getAllNotes(), term));
     renderNotes(currentView);
   });
 });
