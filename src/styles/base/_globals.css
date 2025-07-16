@@ -33,17 +33,22 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding-top: 2rem;
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding: 1rem;
+  width: 100%;
 }
 
-.content-container {
+.content-area {
   flex-grow: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
   padding-bottom: 2rem;
   padding-right: 2rem;
   padding-left: 2rem;

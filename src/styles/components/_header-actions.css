@@ -1,27 +1,12 @@
-.header-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-[data-action="toggle-theme"] {
+[data-action="toggle-theme"],
+[data-action="toggle-grid-view"] {
   background: none;
   color: var(--text-color);
   transition: all 0.2s ease;
   vertical-align: middle;
 }
 
-[data-action="toggle-theme"]:hover {
-  color: var(--brand-color);
-  transition: all 0.2s ease;
-}
-
-[data-action="toggle-grid-view"] {
-  background: none;
-  color: var(--text-color);
-  transition: all 0.2s ease;
-}
-
+[data-action="toggle-theme"]:hover,
 [data-action="toggle-grid-view"]:hover {
   color: var(--brand-color);
   transition: all 0.2s ease;
