@@ -43,11 +43,20 @@ header {
   flex-direction: column;
 }
 
-main {
+/* main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  padding-bottom: 2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
+} */
+
+main {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   padding-bottom: 2rem;
   padding-right: 2rem;

@@ -277,6 +277,36 @@ document.addEventListener("DOMContentLoaded", function () {
     folderDialog.close();
   });
 
+  // document.addEventListener("click", (e) => {
+  //   const actionBtn = e.target.closest("[data-action]");
+
+  //   if (!actionBtn) return;
+
+  //   const action = actionBtn.dataset.action;
+  //   const noteCard = actionBtn.closest(".note-card");
+
+  //   if (action === "add") {
+  //     openNoteDialog();
+  //   } else if (noteCard) {
+  //     const noteId = parseInt(noteCard.dataset.id);
+  //     if (action === "edit") {
+  //       openNoteDialog(noteId);
+  //     } else if (action === "delete") {
+  //       setEditingNoteId(null);
+  //       const note = getAllNotes().find((n) => n.id === noteId);
+  //       showDeleteConfirmation(
+  //         noteId,
+  //         `Delete Note: ${note ? note.title : "undefined"}`,
+  //         `Are you sure you want to delete this note?`
+  //       );
+  //     }
+  //   } else if (action === "close") {
+  //     closeNoteDialog();
+  //     closeConfirmDialog();
+  //     closeFolderDialog();
+  //   }
+  // });
+
   document.addEventListener("click", (e) => {
     const actionBtn = e.target.closest("[data-action]");
 
@@ -292,12 +322,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (action === "edit") {
         openNoteDialog(noteId);
       } else if (action === "delete") {
-        setEditingNoteId(null);
         const note = getAllNotes().find((n) => n.id === noteId);
-        showDeleteConfirmation(
+        showDeleteNoteConfirmation(
           noteId,
-          `Delete Note: ${note ? note.title : "undefined"}`,
-          `Are you sure you want to delete this note?`
+          `Delete Note: ${note ? note.title : "Untitled Note"}`,
+          "Are you sure you want to delete this note?"
         );
       }
     } else if (action === "close") {
