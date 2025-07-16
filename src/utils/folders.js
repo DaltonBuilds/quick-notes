@@ -1,4 +1,4 @@
-import { Folder, createIcons } from "lucide";
+import { Folder, MoreVertical, createIcons } from "lucide";
 import {
   renderNotes,
   saveNotes,
@@ -9,6 +9,10 @@ import {
 
 let folders = [];
 export let activeFolderId = null;
+
+export function getFolders() {
+  return folders;
+}
 
 export function loadFolders() {
   const savedFolders = localStorage.getItem("folders");
@@ -27,6 +31,7 @@ export function createFolder(name) {
     createdAt: Date.now(),
   };
   folders.push(newFolder);
+  activeFolderId = newFolder.id;
   saveFolders();
   renderFolders();
 }
@@ -54,7 +59,7 @@ export function renderFolders() {
   folderList.innerHTML = folders
     .map(
       (folder) => `
-        <li>
+        <li class="folder-list-item">
           <button
             class="folder-item ${activeFolderId === folder.id ? "active" : ""}"
             data-folder-id="${folder.id}"
@@ -65,18 +70,33 @@ export function renderFolders() {
               ${notes.filter((n) => n.folderId === folder.id).length}
             </span>
           </button>
+          <div class="folder-actions">
+            <button class="icon-btn folder-options-btn" data-folder-id="${
+              folder.id
+            }">
+              <i data-lucide="more-vertical"></i>
+            </button>
+            <div class="folder-options-menu" data-folder-id="${folder.id}">
+              <button class="edit-folder-btn" data-folder-id="${
+                folder.id
+              }">Edit</button>
+              <button class="delete-folder-btn" data-folder-id="${
+                folder.id
+              }">Delete</button>
+            </div>
+          </div>
         </li>
       `
     )
     .join("");
 
-  createIcons({ icons: { Folder } });
+  createIcons({ icons: { Folder, MoreVertical } });
   updateFolderNoteCounts();
+  initFolderOptionListeners();
 }
 
 export function setActiveFolder(folderId) {
   activeFolderId = folderId;
-  filterNotes(folderId);
   renderFolders();
 }
 
@@ -112,4 +132,40 @@ function updateFolderNoteCounts() {
   if (uncategorizedSpan) {
     uncategorizedSpan.textContent = `(${uncategorizedCount})`;
   }
+}
+
+export function editFolder(folderId, newName) {
+  const folderIndex = folders.findIndex((folder) => folder.id === folderId);
+  if (folderIndex > -1) {
+    folders[folderIndex].name = newName.trim();
+    saveFolders();
+    renderFolders();
+  }
+}
+
+function initFolderOptionListeners() {
+  document.querySelectorAll(".folder-options-btn").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent folder item click
+      const folderId = button.dataset.folderId;
+      const menu = document.querySelector(
+        `.folder-options-menu[data-folder-id="${folderId}"]`
+      );
+      document.querySelectorAll(".folder-options-menu").forEach((m) => {
+        if (m !== menu) m.classList.remove("active");
+      });
+      menu.classList.toggle("active");
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      !e.target.closest(".folder-options-menu") &&
+      !e.target.closest(".folder-options-btn")
+    ) {
+      document.querySelectorAll(".folder-options-menu").forEach((menu) => {
+        menu.classList.remove("active");
+      });
+    }
+  });
 }

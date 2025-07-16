@@ -7,6 +7,8 @@ import {
   closeFolderDialog,
   renderFolders,
   setActiveFolder,
+  editFolder,
+  getFolders,
 } from "./utils/folders.js";
 import {
   initDeleteConfirmation,
@@ -42,6 +44,7 @@ import {
   GripVertical,
   LayoutGrid,
   List,
+  MoreVertical,
 } from "lucide";
 
 function toggleTheme() {
@@ -93,8 +96,20 @@ document.addEventListener("DOMContentLoaded", function () {
       GripVertical,
       LayoutGrid,
       List,
+      MoreVertical,
     },
   });
+
+  const { show: showDeleteNoteConfirmation } = initDeleteConfirmation((id) => {
+    deleteNote(id);
+  });
+
+  const { show: showDeleteFolderConfirmation } = initDeleteConfirmation(
+    (id) => {
+      deleteFolder(id);
+      setEditingNoteId(null);
+    }
+  );
 
   loadFolders();
 
@@ -109,19 +124,16 @@ document.addEventListener("DOMContentLoaded", function () {
     folderDialog.showModal();
   });
 
-  // Folder form submission
-  document.getElementById("folder-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("folder-name").value;
-    createFolder(name);
-    document.getElementById("folder-dialog").close();
-  });
-
   // Clicking a folder
   document.getElementById("folder-list").addEventListener("click", (e) => {
     const folderBtn = e.target.closest("[data-folder-id]");
     if (!folderBtn) return;
     const folderId = parseInt(folderBtn.dataset.folderId);
+
+    if (e.target.closest(".folder-options-btn")) {
+      return;
+    }
+
     filterNotesByFolder(folderId);
   });
 
@@ -172,12 +184,22 @@ document.addEventListener("DOMContentLoaded", function () {
   // Load notes
   setNotes(loadNotes());
 
-  const { show: showDeleteConfirmation } = initDeleteConfirmation((id) => {
-    deleteNote(id);
-    setEditingNoteId(null);
-  }, getAllNotes());
-
   renderNotes(currentView);
+
+  document.getElementById("folder-list").addEventListener("click", (e) => {
+    const deleteButton = e.target.closest(".delete-folder-btn");
+    if (deleteButton) {
+      const folderId = parseInt(deleteButton.dataset.folderId);
+      const folder = getFolders().find((f) => f.id === folderId);
+      if (folder) {
+        showDeleteFolderConfirmation(
+          folder.id,
+          `Delete Folder: ${folder.name}?`,
+          "Are you sure you want to delete this folder? All notes in this folder will be uncategorized."
+        );
+      }
+    }
+  });
 
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
@@ -206,6 +228,55 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+  // Edit folder
+  document.getElementById("folder-list").addEventListener("click", (e) => {
+    const editBtn = e.target.closest(".edit-folder-btn");
+    if (!editBtn) return;
+
+    const folderId = parseInt(editBtn.dataset.folderId);
+    const folder = getFolders().find((f) => f.id === folderId);
+
+    if (folder) {
+      const titleElement = document.getElementById("folder-dialog-title");
+      const folderNameElement = document.getElementById("folder-name");
+      const folderDialog = document.getElementById("folder-dialog");
+
+      titleElement.textContent = "Edit Folder";
+      folderNameElement.value = folder.name;
+      folderDialog.showModal();
+
+      folderDialog.dataset.editingFolderId = folderId;
+    }
+  });
+
+  // Delete folder
+  document.getElementById("folder-list").addEventListener("click", (e) => {
+    const deleteBtn = e.target.closest(".delete-folder-btn");
+    if (!deleteBtn) return;
+
+    const folderId = parseInt(deleteBtn.dataset.folderId);
+    const folder = getFolders().find((f) => f.id === folderId);
+
+    if (folder) {
+      initDeleteConfirmation();
+    }
+  });
+
+  document.getElementById("folder-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("folder-name").value;
+    const folderDialog = document.getElementById("folder-dialog");
+    const editingFolderId = folderDialog.dataset.editingFolderId;
+
+    if (editingFolderId) {
+      editFolder(parseInt(editingFolderId), name);
+      delete folderDialog.dataset.editingFolderId;
+    } else {
+      createFolder(name);
+    }
+    folderDialog.close();
+  });
+
   document.addEventListener("click", (e) => {
     const actionBtn = e.target.closest("[data-action]");
 
@@ -222,7 +293,12 @@ document.addEventListener("DOMContentLoaded", function () {
         openNoteDialog(noteId);
       } else if (action === "delete") {
         setEditingNoteId(null);
-        showDeleteConfirmation(noteId);
+        const note = getAllNotes().find((n) => n.id === noteId);
+        showDeleteConfirmation(
+          noteId,
+          `Delete Note: ${note ? note.title : "undefined"}`,
+          `Are you sure you want to delete this note?`
+        );
       }
     } else if (action === "close") {
       closeNoteDialog();

@@ -4,13 +4,23 @@
   margin: 0 0 1rem 0;
 }
 
-.folder-item {
+.folder-list-item {
+  position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.folder-list-item:hover {
+  background: color-mix(in srgb, var(--surface-color), var(--base-color) 50%);
+}
+
+.folder-item {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
   padding: 0.5rem;
   border-radius: 4px;
-  margin-bottom: 0.25rem;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -18,16 +28,64 @@
 }
 
 .folder-item:hover {
-  background: color-mix(in srgb, var(--surface-color), var(--base-color) 50%);
   color: var(--brand-color);
 }
 
 .folder-item.active {
-  background: var(
-    --brand-color
-  ); /* 'active' state hasn't been completed yet' */
+  background: var(--brand-color);
   font-weight: bold;
   color: white;
+}
+
+.folder-actions {
+  position: relative;
+  margin-left: auto;
+}
+
+.folder-options-btn {
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: var(--secondary-text-color);
+  transition: background-color 0.2s ease;
+}
+
+.folder-options-btn:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--surface-color),
+    var(--base-color) 50%
+  );
+}
+
+.folder-options-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--base-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.folder-options-menu.active {
+  display: flex;
+}
+
+.folder-options-menu button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.folder-options-menu button:hover {
+  background-color: var(--brand-color);
 }
 
 [data-lucide="folder-plus"] {

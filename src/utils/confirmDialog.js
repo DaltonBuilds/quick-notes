@@ -1,6 +1,7 @@
-export function initDeleteConfirmation(deleteHandler, notes) {
+export function initDeleteConfirmation(deleteHandler) {
   const dialog = document.getElementById("delete-dialog");
   const titleElement = document.getElementById("delete-dialog-title");
+  const messageElement = document.getElementById("delete-dialog-message");
   let pendingDeleteId = null;
 
   dialog.addEventListener("click", (e) => {
@@ -13,12 +14,10 @@ export function initDeleteConfirmation(deleteHandler, notes) {
   });
 
   return {
-    show: (noteId) => {
-      pendingDeleteId = noteId;
-      const note = notes.find((n) => n.id === noteId);
-      if (note) {
-        titleElement.innerHTML = `Delete Note: ${note.title}`;
-      }
+    show: (id, title, message) => {
+      pendingDeleteId = id;
+      titleElement.innerHTML = title;
+      messageElement.innerHTML = message;
       dialog.showModal();
     },
     hide: () => dialog.close(),
