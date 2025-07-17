@@ -204,29 +204,24 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("note-form").addEventListener("submit", saveNote);
 
   // Close dialogs on click outside
-  document
-    .getElementById("note-dialog")
-    .addEventListener("click", function (e) {
-      if (e.target == this) {
-        closeNoteDialog();
-      }
-    });
+  function setupDialogCloseOnOutsideClick(dialogId, closeFunction) {
+    const dialogElement = document.getElementById(dialogId);
+    if (dialogElement) {
+      dialogElement.addEventListener("click", (e) => {
+        if (e.target === dialogElement) {
+          closeFunction();
+        }
+      });
+    } else {
+      console.warn(
+        `Dialog element with ID "${dialogId}" not found. Cannot attach event listener.`
+      );
+    }
+  }
 
-  document
-    .getElementById("delete-dialog")
-    .addEventListener("click", function (e) {
-      if (e.target == this) {
-        closeConfirmDialog();
-      }
-    });
-
-  document
-    .getElementById("folder-dialog")
-    .addEventListener("click", function (e) {
-      if (e.target == this) {
-        closeFolderDialog();
-      }
-    });
+  setupDialogCloseOnOutsideClick("note-dialog", closeNoteDialog);
+  setupDialogCloseOnOutsideClick("delete-dialog", closeConfirmDialog);
+  setupDialogCloseOnOutsideClick("folder-dialog", closeFolderDialog);
 
   // Edit folder
   document.getElementById("folder-list").addEventListener("click", (e) => {
